@@ -24,13 +24,10 @@ const Navbar = () => {
           <div class="text-gray-500 order-3 w-full md:w-auto md:order-2">
             <ul class="flex font-semibold justify-between">
               <li class="md:px-4 md:py-2 text-indigo-500">
-                <a href="#">Dashboard</a>
+                <a href="/">Home</a>
               </li>
               <li class="md:px-4 md:py-2 hover:text-indigo-400">
-                <a href="#">Search</a>
-              </li>
-              <li class="md:px-4 md:py-2 hover:text-indigo-400">
-                <a href="#">Explore</a>
+                <a href="/explore">Explore</a>
               </li>
               <li class="md:px-4 md:py-2 hover:text-indigo-400">
                 <a href="#">About</a>
