@@ -1,5 +1,5 @@
 
-
+import { Link } from "react-router-dom";
 const Navbar = () => {
   return (
 
@@ -30,7 +30,7 @@ const Navbar = () => {
                 <a href="/explore">Explore</a>
               </li>
               <li class="md:px-4 md:py-2 hover:text-indigo-400">
-                <a href="#">About</a>
+                <a href="/about">About</a>
               </li>
               <li class="md:px-4 md:py-2 hover:text-indigo-400">
                 <a href="#">Contact</a>
@@ -38,6 +38,7 @@ const Navbar = () => {
             </ul>
           </div>
           <div class="order-2 md:order-3">
+            <Link to="/login">
             <button class="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-gray-50 rounded-xl flex items-center gap-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -51,8 +52,10 @@ const Navbar = () => {
                   clipRule="evenodd"
                 />
               </svg>
+             
               <span>Login</span>
             </button>
+            </Link>
           </div>
         </div>
       </nav>
