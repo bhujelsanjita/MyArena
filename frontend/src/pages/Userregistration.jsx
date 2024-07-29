@@ -1,6 +1,9 @@
 // src/pages/UserRegistrationPage.jsx
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import Toast from '../component/Toast';
+import api from '../api/axios';
 
 const UserRegistrationPage = () => {
     const [formData, setFormData] = useState({
@@ -11,15 +14,21 @@ const UserRegistrationPage = () => {
         contactNo: '',
         address: '',
     });
+    const [toast, setToast] = useState({ message: '', status: '', visible: false });
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle registration logic here, e.g., send data to backend
-        console.log(formData);
+        try {
+            console.log(formData);
+            const response = await api.post('/user/registration', formData);
+            setToast({ message: 'Registration successful!', status: 'success', visible: true });
+        } catch (error) {
+            setToast({ message: 'Registration failed. Please try again.', status: 'fail', visible: true });
+        }
     };
 
     return (
