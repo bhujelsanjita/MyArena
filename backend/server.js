@@ -3,12 +3,15 @@ const sequelize = require("sequelize");
 const dotenv = require("dotenv").config();
 const DB = require("./config/dbconfig");
 const router = require("./routes/route");
-
+const bodyparser = require("body-parser");
 
 
 
 const app = express();
+app.use(bodyparser.urlencoded({extended: true}));
+app.use(bodyparser.json());
 app.use(router);
+
 const PORT = process.env.APP_PORT;
 DB.sync({alter:true}).then(()=>{
     console.log("Database Connection established");
