@@ -25,12 +25,32 @@ const UserRegistrationPage = () => {
         try {
             console.log(formData);
             const response = await api.post('/user/registration', formData);
-            setToast({ message: 'Registration successful!', status: 'success', visible: true });
+            console.log(response.data);
+            if(response.data.status){
+                var message = response.data.message;
+                var toastStatus = "success";
+            }else{
+                var message = response.data.message;
+                var toastStatus = "fail";
+            }
+            setToast({ message: message, status: toastStatus, visible: true });
         } catch (error) {
-            setToast({ message: 'Registration failed. Please try again.', status: 'fail', visible: true });
+            console.error('Registration error:', error); // Log the error to the console
+            if (error.response) {
+                // Server responded with a status other than 200 range
+                console.error('Error data:', error.response.data);
+                setToast({ message: error.response.data.message || 'Registration failed. Please try again.', status: 'fail', visible: true });
+            } else if (error.request) {
+                // Request was made but no response received
+                console.error('Request error:', error.request);
+                setToast({ message: 'No response from server. Please check your network and try again.', status: 'fail', visible: true });
+            } else {
+                // Something else happened
+                console.error('Error', error.message);
+                setToast({ message: 'An error occurred. Please try again later.', status: 'fail', visible: true });
+            }
         }
     };
-
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
             <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
@@ -114,6 +134,13 @@ const UserRegistrationPage = () => {
                         Already have an account?
                     </Link>
                 </div>
+                {toast.visible && (
+                    <Toast
+                        message={toast.message}
+                        status={toast.status}
+                        onClose={() => setToast({ ...toast, visible: false })}
+                    />
+                )}
             </div>
         </div>
     );
