@@ -69,15 +69,17 @@ const userController = {
       });
     }
     User.findOne({
+      raw: true,
       where: {
         email: req.body.email,
       },
     })
       .then((data) => {
         console.log(data);
-        if (data != null && data.length > 0) {
+        if (data != null) {
+          console.log("user already found", data);
           return res.status(200).send({
-            message: `user with this ${req.body.email} is  found`,
+            message: `User with ${req.body.email} already exist!`,
             success: false,
           });
         }
