@@ -6,7 +6,7 @@ import PageHeader from '../component/Pageheader';
 
 const ExplorePage = () => {
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div className="min-h-screen bg-blue-100">
             <Navbar />
             <PageHeader title={"Find the best Arena"} backgroundImage='https://i0.wp.com/isibangunan.com/wp-content/uploads/2017/12/Harga-Karpet-Karpet-Vinyl-Futsal-Per-Meter.jpg?fit=800%2C350&ssl=1'/>
             
@@ -30,10 +30,10 @@ const ExplorePage = () => {
                         <div>
                             <h3 className="text-lg font-medium">Location</h3>
                             <select className="w-full p-2 border rounded-lg">
-                                <option value="">Select Location</option>
-                                <option value="location1">Location 1</option>
-                                <option value="location2">Location 2</option>
-                                <option value="location3">Location 3</option>
+                                <option value="">Kathmandu</option>
+                                <option value="location1">Koteshwor</option>
+                                <option value="location2">Shantinagar</option>
+                                <option value="location3">Baneshwor</option>
                             </select>
                         </div>
                     </div>
