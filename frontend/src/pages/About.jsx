@@ -8,7 +8,7 @@ const About = () => {
         <Navbar />
         
         <div className="min-h-screen bg-green-100 flex items-center justify-center p-6">
-            <div className="max-w-4xl bg-orange p-8 rounded-lg shadow-lg">
+            <div className="max-w-4xl bg-white p-8 rounded-lg shadow-lg">
                 <h1 className="text-4xl font-bold mb-6 text-center text-gray-800">About Us</h1>
                 <p className="text-gray-700 mb-6 text-lg leading-relaxed">
                     Welcome to our platform! We are dedicated to providing the best experience for our users.

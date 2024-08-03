@@ -7,6 +7,7 @@ const dotenv = require("dotenv").config();
 // const Venue = require("../models/venue");
 const { Venue_Owner, Venue, User } = require("../models/relationship");
 const Booking = require("../models/Booking");
+
 const adminController = {
   adminLogin: (req, res) => {
     if (
@@ -183,7 +184,7 @@ const adminController = {
         data: data
       });
     }).catch((err)=>{
-      return req.status(401).send({
+      return re.status(401).send({
         message:"Something went wrong",
         success: false
       });
@@ -212,5 +213,79 @@ const adminController = {
       });
     })
   },
+  editVenue: async (req, res) => {
+    const { id } = req.params;
+    const { name, address, type, status, ownerId } = req.body;
+    let imageUrl;
+  
+    // Handle file upload if a new image is provided
+    if (req.file) {
+      const imagePath = req.file.path;
+      imageUrl = `${req.protocol}://${req.get('host')}/${imagePath}`;
+    }
+  
+    try {
+      // Find the venue by ID
+      const venue = await Venue.findByPk(id);
+      if (!venue) {
+        return res.status(404).send({
+          message: 'Venue not found',
+          success: false,
+        });
+      }
+  
+      // Update the venue details
+      await Venue.update(
+        {
+          name,
+          address,
+          type,
+          status,
+          ownerId,
+          image: imageUrl || venue.image, // Use new image URL if provided, otherwise keep the old one
+        },
+        { where: { id } }
+      );
+  
+      return res.status(200).send({
+        message: 'Venue updated successfully',
+        success: true,
+      });
+    } catch (error) {
+      console.error('Error updating venue:', error);
+      return res.status(500).send({
+        message: 'Something went wrong',
+        success: false,
+      });
+    }
+  },
+  deleteVenue:async (req, res) => {
+    const { slug } = req.params;
+  
+    try {
+      // Find the venue by slug
+      const venue = await Venue.findOne({ where: { slug } });
+      if (!venue) {
+        return res.status(404).send({
+          message: 'Venue not found',
+          success: false,
+        });
+      }
+  
+      // Delete the venue
+      await Venue.destroy({ where: { slug } });
+  
+      return res.status(200).send({
+        message: 'Venue deleted successfully',
+        success: true,
+      });
+    } catch (error) {
+      console.error('Error deleting venue:', error);
+      return res.status(500).send({
+        message: 'Something went wrong',
+        success: false,
+      });
+    }
+  }
 };
 module.exports = adminController;

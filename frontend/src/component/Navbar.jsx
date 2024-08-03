@@ -14,7 +14,7 @@ const Navbar = () => {
       <div className="md:h-16 h-28 mx-auto md:px-4 container flex items-center justify-between flex-wrap md:flex-nowrap">
         <div className="text-indigo-500 md:order-1">
           <svg
-            xmlns="http://www.w3.org/2000/svg"
+            xmlns=""
             className="h-10 w-10"
             fill="none"
             viewBox="0 0 24 24"

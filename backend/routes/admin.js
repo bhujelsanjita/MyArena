@@ -11,6 +11,8 @@ adminRouter.post("/addvenue",Auth.veneueOwnerAuth,uploads.single("image"),adminC
 adminRouter.get("/list-venue",adminController.listVenue);
 adminRouter.post("/venue-details",adminController.getVenueDetails);
 adminRouter.get("/booking-lists",adminController.listBooking);
+adminRouter.patch('/venues/:id', uploads.single('image'), adminController.editVenue);
+adminRouter.delete('/venues/:slug',adminController.deleteVenue); // Add this line for delete route
 
 
 module.exports = adminRouter;

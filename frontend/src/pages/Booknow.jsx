@@ -116,7 +116,7 @@ const BookNowPage = () => {
       <Navbar />
       <PageHeader
         title="Book Your Venue Now"
-        backgroundImage="https://via.placeholder.com/1920x1080"
+        backgroundImage="https://thumbs.dreamstime.com/b/stadium-cricket-night-bright-color-ai-generated-content-design-background-instagram-facebook-wall-painting-wallpaper-325372484.jpg"
       />
       <div className="container mx-auto px-4 py-6 flex flex-wrap md:flex-nowrap">
         {/* Left Sidebar - Venue Info */}

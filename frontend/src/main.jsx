@@ -25,6 +25,7 @@ import About from "./pages/About";
 import VenueOwnerRegistrationPage from "./pages/VenueownerRegistration.jsx";
 import DashboardIndex from "./pages/Dashboard.jsx";
 import VenueOwnerLogout from "./pages/VenueOwnerLogout.jsx";
+import EditVenue from "./component/EditVenue.jsx";
 
 const router = createBrowserRouter([
   {
@@ -48,6 +49,7 @@ const router = createBrowserRouter([
       { path: "venues/add", element: <AddVenue /> },
       { path: "bookings", element: <ManageBookings /> },
       { path: "players", element: <ManagePlayers /> },
+      { path: "venues/edit/:venueId",element: <EditVenue />}
     ],
   },
   {
