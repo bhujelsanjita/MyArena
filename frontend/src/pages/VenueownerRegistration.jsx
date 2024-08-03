@@ -122,7 +122,7 @@ const VenueOwnerRegistrationPage = () => {
                     </button>
                 </form>
                 <div className="flex justify-center items-center mt-4">
-                    <Link to="/veneuowner/login" className="text-indigo-600 hover:text-indigo-800">
+                    <Link to="/venueowner/login" className="text-indigo-600 hover:text-indigo-800">
                         Already have an account?
                     </Link>
                 </div>

@@ -3,7 +3,7 @@ const Database = require("../config/dbconfig");
 const jwt = require("jsonwebtoken");
 // const User = require("../models/user");
 const Becrypt = require("bcrypt");
-const {sendEmail} = require("../middleware/nodemailer");
+const { sendEmail } = require("../middleware/nodemailer");
 const { Booking, User, Venue } = require("../models/relationship");
 
 const dotenv = require("dotenv").config();
@@ -176,7 +176,7 @@ const userController = {
             return res.status(200).send({
               message: "Booking created successfully",
               success: true,
-              venuename: venuename
+              venuename: venuename,
             });
           })
           .catch((err) => {
@@ -213,36 +213,35 @@ const userController = {
   //   })
   // },
 
-  changeBookingStatus: (req,res)=>{
-
-    if(
-      req.body.bookingId == null ||
-      req.body.bookingId == undefined
-    ){
-        return res.status(401).send({
+  changeBookingStatus: (req, res) => {
+    if (req.body.bookingId == null || req.body.bookingId == undefined) {
+      return res.status(401).send({
         message: "Provide Booking Id",
         success: false,
       });
     }
-    Booking.update({
-      status: req.body.newstatus,
-
-    },{
-      where:{
-        id: req.body.bookingId
+    Booking.update(
+      {
+        status: req.body.newstatus,
+      },
+      {
+        where: {
+          id: req.body.bookingId,
+        },
       }
-    }).then((update)=>{
-      return res.status(200).send({
-        message: "Updated Successfully",
-        success: true
+    )
+      .then((update) => {
+        return res.status(200).send({
+          message: "Updated Successfully",
+          success: true,
+        });
+      })
+      .catch((err) => {
+        return res.status(401).send({
+          message: "something went wrong",
+          success: false,
+        });
       });
-    }).catch((err)=>{
-      return res.status(401).send({
-        message: "something went wrong",
-        success: false
-      });
-    })
-
   },
   getStatistics: async (req, res) => {
     try {
@@ -250,10 +249,21 @@ const userController = {
       const totalUsers = await User.count();
 
       // Get total number of bookings
-      const totalBookings = await Booking.count();
+      const totalBookings = await Booking.count(
+        {
+          where: {
+            
+            venueId: {
+              [sequelize.Op.ne]: null
+            }
+          },
+        }
+      );
 
       // Get total number of venues
-      const totalVenues = await Venue.count();
+      const totalVenues = await Venue.count(
+        
+      );
 
       return res.status(200).send({
         message: "Statistics fetched successfully",
@@ -272,47 +282,52 @@ const userController = {
       });
     }
   },
-  getMyBookings: (req,res)=>{
+  getMyBookings: (req, res) => {
     let id = req.user.id;
-    console.log("userid",id)
+    console.log("userid", id);
     Booking.findAll({
       raw: true,
-      where:{
-      userId: id
+      where: {
+        userId: id,
+        venueId: {
+          [sequelize.Op.ne]: null
+        }
       },
-      include:[{
-        model:Venue
-      },
-    {
-      model: User
-    }]
-    }).then((data) => {
-      if(data == null){
-        return res.status(200).send({
-          message: "Data not found",
-          success: false,
-          
-        });
-      
-      }
-      return res.status(200).send({
-        message: "fetched my bookings successfully",
-        success: true,
-        data: data
-      });
-    }).catch((err)=>{
-      return res.status(500).send({
-        message: "Something went wrong",
-        success: false,
-      });
+      include: [
+        {
+          model: Venue,
+        },
+        {
+          model: User,
+        },
+      ],
     })
+      .then((data) => {
+        if (data == null) {
+          return res.status(200).send({
+            message: "Data not found",
+            success: false,
+          });
+        }
+        return res.status(200).send({
+          message: "fetched my bookings successfully",
+          success: true,
+          data: data,
+        });
+      })
+      .catch((err) => {
+        return res.status(500).send({
+          message: "Something went wrong",
+          success: false,
+        });
+      });
   },
   changePassword: async (req, res) => {
     const { currentPassword, newPassword } = req.body;
 
     if (!currentPassword || !newPassword) {
       return res.status(400).send({
-        message: 'Current password and new password are required.',
+        message: "Current password and new password are required.",
         success: false,
       });
     }
@@ -326,7 +341,7 @@ const userController = {
 
       if (!user) {
         return res.status(404).send({
-          message: 'User not found.',
+          message: "User not found.",
           success: false,
         });
       }
@@ -336,7 +351,7 @@ const userController = {
 
       if (!isMatch) {
         return res.status(401).send({
-          message: 'Current password is incorrect.',
+          message: "Current password is incorrect.",
           success: false,
         });
       }
@@ -350,38 +365,36 @@ const userController = {
       await user.save();
 
       return res.status(200).send({
-        message: 'Password changed successfully.',
+        message: "Password changed successfully.",
         success: true,
       });
     } catch (error) {
-      console.error('Error changing password:', error);
+      console.error("Error changing password:", error);
       return res.status(500).send({
-        message: 'Something went wrong. Please try again later.',
+        message: "Something went wrong. Please try again later.",
         success: false,
       });
     }
   },
-  sendMail: (req,res)=>{
+  sendMail: (req, res) => {
     const emailTo = req.body.to;
     const from = req.body.from;
     const subject = req.body.subject;
     const emailBody = req.body.emailbody;
-    sendEmail(from,emailTo,subject,emailBody).then((success)=>{
-      console.log(success);
-      return res.send({
-        message: "Email sent succesfully",
-        success: true
+    sendEmail(from, emailTo, subject, emailBody)
+      .then((success) => {
+        console.log(success);
+        return res.send({
+          message: "Email sent succesfully",
+          success: true,
+        });
+      })
+      .catch((err) => {
+        return res.status(401).send({
+          message: "Something went wrong while sending email",
+          success: false,
+        });
       });
-    }).catch((err)=>{
-      return res.status(401).send({
-        message: "Something went wrong while sending email",
-        success: false
-      });
-    })
-
-  }
-  
-
-
+  },
 };
 module.exports = userController;

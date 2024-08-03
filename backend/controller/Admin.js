@@ -193,6 +193,11 @@ const adminController = {
   listBooking: (req,res)=>{
     Booking.findAll({
       raw:true,
+      where:{
+        venueId: {
+          [Sequelize.Op.ne]:null
+        }
+      },
       include:[{
         model: Venue
       },{

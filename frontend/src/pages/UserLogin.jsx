@@ -11,12 +11,15 @@ const UserLoginPage = () => {
     if(UserAuth()){
         let isBooking = JSON.parse(sessionStorage.getItem("isBooking"));
         console.log(isBooking);
-        if(isBooking.booking){
+        if(isBooking?.booking){
             window.location.href = isBooking.returnUrl;
         }
-        // console.log("sanjita",localStorage.getItem("userLoginToken"));
-        // window.location.href = "/user-dashboard";
+        else{
 
+        
+        // console.log("sanjita",localStorage.getItem("userLoginToken"));
+        window.location.href = "/user-dashboard";
+        }
 
 
     }

@@ -67,7 +67,7 @@ const Dashboard = () => {
                             <div><strong>Player:</strong> {order['user.name']}</div>
                             <div><strong>Venue:</strong> {order['venue.name']}</div>
                             <div><strong>Date:</strong> {new Date(order.date).toLocaleDateString()}</div>
-                            <div><strong>Amount:</strong> ${order['venue.price']}</div>
+                            <div><strong>Amount:</strong> Rs.{order['venue.price']}</div>
                         </li>
                     ))}
                 </ul>
