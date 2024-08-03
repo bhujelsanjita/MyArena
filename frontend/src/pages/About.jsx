@@ -4,8 +4,11 @@ import Navbar from '../component/Navbar';
 
 const About = () => {
     return (
-        <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
-            <div className="max-w-4xl bg-white p-8 rounded-lg shadow-lg">
+        <>
+        <Navbar />
+        
+        <div className="min-h-screen bg-green-100 flex items-center justify-center p-6">
+            <div className="max-w-4xl bg-orange p-8 rounded-lg shadow-lg">
                 <h1 className="text-4xl font-bold mb-6 text-center text-gray-800">About Us</h1>
                 <p className="text-gray-700 mb-6 text-lg leading-relaxed">
                     Welcome to our platform! We are dedicated to providing the best experience for our users.
@@ -32,11 +35,12 @@ const About = () => {
                     <h2 className="text-2xl font-semibold mb-4 text-gray-800">Contact Us</h2>
                     <p className="text-gray-700 text-lg leading-relaxed">
                         If you have any questions, feedback, or would like to get in touch with us, please do not
-                        hesitate to contact us at <a href="mailto:support@example.com" className="text-indigo-600 hover:underline">support@example.com</a>.
+                        hesitate to contact us at <a href="mailto:support@example.com" className="text-indigo-600 hover:underline">bhujelsanjita7@gmail.com</a>.
                     </p>
                 </div>
             </div>
         </div>
+        </>
     );
 };
 

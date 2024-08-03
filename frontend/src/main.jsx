@@ -7,13 +7,12 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage from "./pages/Homepage.jsx";
 import ExplorePage from "./pages/Explore.jsx";
 import BookNowPage from "./pages/Booknow.jsx";
-import AdminDashboard from "./pages/AdminDashboard";
 import Dashboard from "./component/Dashboard";
 import VenueList from "./component/VenueList";
 import AddVenue from "./component/AddVenue";
 import ManageBookings from "./component/ManageBookings";
 import ManagePlayers from "./component/ManagePlayers";
-import LoginPage from "./pages/Adminlogin.jsx";
+import LoginPage from "./pages/VenueOwnerLoginPage.jsx.jsx";
 import UserRegistrationPage from "./pages/Userregistration.jsx";
 import UserLoginPage from "./pages/UserLogin.jsx";
 import ForgotPasswordPage from "./pages/Forgotpassword.jsx";
@@ -23,6 +22,10 @@ import ChangePassword from "./pages/Changepassword";
 import Profile from "./pages/Profile";
 import Logout from "./pages/Logout.jsx";
 import About from "./pages/About";
+import VenueOwnerRegistrationPage from "./pages/VenueownerRegistration.jsx";
+import DashboardIndex from "./pages/Dashboard.jsx";
+import VenueOwnerLogout from "./pages/VenueOwnerLogout.jsx";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -37,8 +40,8 @@ const router = createBrowserRouter([
     element: <BookNowPage />,
   },
   {
-    path: "/admin",
-    element: <AdminDashboard />,
+    path: "/dashboard",
+    element: <DashboardIndex />,
     children: [
       { path: "", element: <Dashboard /> },
       { path: "venues", element: <VenueList /> },
@@ -48,8 +51,16 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/admin/login",
+    path:"/dashboard/logout",
+    element:<VenueOwnerLogout />
+  },
+  {
+    path: "/venueowner/login",
     element: <LoginPage />,
+  },
+  {
+    path: "/venueowner/register",
+    element: <VenueOwnerRegistrationPage />,
   },
   {
     path: "/register",

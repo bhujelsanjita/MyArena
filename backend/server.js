@@ -12,10 +12,11 @@ app.use(bodyparser.urlencoded({extended: true}));
 app.use(bodyparser.json());
 app.use(cors());
 app.use(router);
+app.use("/uploads",express.static("uploads/"));
 
 
 const PORT = process.env.APP_PORT;
-DB.sync({alter:true}).then(()=>{
+DB.authenticate({alter:true}).then(()=>{
     console.log("Database Connection established");
     app.listen(PORT,()=>{
         console.log(`Server is running on port ${PORT}`);

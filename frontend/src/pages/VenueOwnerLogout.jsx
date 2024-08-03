@@ -2,16 +2,16 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Logout = () => {
+const VenueOwnerLogout = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
         // Clear user authentication data, e.g., tokens or user info
-        localStorage.removeItem('userLoginToken'); // Example: removing token from localStorage
+        localStorage.removeItem('venueOwnerLoginToken'); // Example: removing token from localStorage
         // localStorage.removeItem('userData'); // Example: removing user data
 
         // Redirect to the login page or home page
-        navigate('/login'); // Redirect to the login page after logout
+        navigate('/venueowner/login'); // Redirect to the login page after logout
     }, [navigate]);
 
     return (
@@ -21,4 +21,4 @@ const Logout = () => {
     );
 };
 
-export default Logout;
+export default VenueOwnerLogout;

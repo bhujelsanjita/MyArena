@@ -9,7 +9,7 @@ const UserDashboard = () => {
                 <ul>
                     <li className="mb-4">
                         <Link to="/user-dashboard/manage-bookings" className="text-indigo-600 hover:text-indigo-800">
-                            Manage Bookings
+                            My Bookings
                         </Link>
                     </li>
                     <li className="mb-4">
@@ -17,11 +17,7 @@ const UserDashboard = () => {
                             Change Password
                         </Link>
                     </li>
-                    <li className="mb-4">
-                        <Link to="/user-dashboard/profile" className="text-indigo-600 hover:text-indigo-800">
-                            Profile
-                        </Link>
-                    </li>
+                    
                     <li className="mb-4">
                         <Link to="/user-dashboard/logout" className="text-indigo-600 hover:text-indigo-800">
                             Logout

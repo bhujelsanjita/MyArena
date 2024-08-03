@@ -1,30 +1,23 @@
-// src/pages/UserLoginPage.jsx
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+// src/pages/VenueOwnerLoginPage.jsx
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import api from '../api/axios';
 import Toast from '../component/Toast';
-import UserAuth from '../auth/userauth';
+import venueownerauth from '../auth/venueownerauth';
 
-const UserLoginPage = () => {
-    // console.log(sessionStorage.getItem("isBooking"));
-
-    if(UserAuth()){
-        let isBooking = JSON.parse(sessionStorage.getItem("isBooking"));
-        console.log(isBooking);
-        if(isBooking.booking){
-            window.location.href = isBooking.returnUrl;
-        }
-        // console.log("sanjita",localStorage.getItem("userLoginToken"));
-        // window.location.href = "/user-dashboard";
-
-
-
-    }
+const VenueOwnerLoginPage = () => {
+    const navigate = useNavigate(); // Use the navigate hook from react-router-dom for redirection
     const [formData, setFormData] = useState({
         email: '',
         password: '',
     });
     const [toast, setToast] = useState({ message: '', status: '', visible: false });
+
+    useEffect(() => {
+        if (venueownerauth()) {
+            navigate("/dashboard");
+        }
+    }, [navigate]);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -32,35 +25,31 @@ const UserLoginPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try{
-            const loginResponse = await api.post("/user/login",formData);
-            console.log(loginResponse);
-            if(loginResponse.data.success){
-                var message = loginResponse.data.message;
-                var toastStatus = "success";
-                localStorage.setItem("userLoginToken",loginResponse.data.token);
-
-            }else{
-                var message = loginResponse.data.message;
-                var toastStatus = "fail";
+        try {
+            const response = await api.post('/admin/login', formData);
+            if (response.data.success) {
+                localStorage.setItem("venueOwnerLoginToken", response.data.token);
+                setToast({ message: response.data.message, status: 'success', visible: true });
+                setTimeout(() => {
+                    setToast({ visible: false });
+                    navigate("/dashboard");
+                }, 1000); // Redirect after 1 second to allow the toast to display
+            } else {
+                setToast({ message: response.data.message, status: 'fail', visible: true });
             }
-
-        setToast({ message: message, status: toastStatus, visible: true });
+        } catch (error) {
+            setToast({
+                message: error.response?.data?.message || 'Login failed. Please try again.',
+                status: 'fail',
+                visible: true
+            });
         }
-        catch(err){
-            console.log(err);
-            setToast({ message: "Something went wrong!", status: "fail", visible: true });
-            
-        }
-
-        
-
     };
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
             <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
-                <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">User Login</h2>
+                <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">Venue Owner Login</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <label className="block text-gray-700 mb-2">Email</label>
@@ -91,25 +80,21 @@ const UserLoginPage = () => {
                         Login
                     </button>
                 </form>
-                <div className="flex justify-between items-center mt-4">
-                    <Link to="/register" className="text-indigo-600 hover:text-indigo-800">
-                        Don't have an account?
-                    </Link>
-                    <Link to="/forgot-password" className="text-indigo-600 hover:text-indigo-800">
-                        Forgot Password?
+                <div className="flex justify-center items-center mt-4">
+                    <Link to="/venueowner/register" className="text-indigo-600 hover:text-indigo-800">
+                        Don't have an account? Register
                     </Link>
                 </div>
-            </div>
-            {toast.visible && (
+                {toast.visible && (
                     <Toast
                         message={toast.message}
                         status={toast.status}
-                        onClose={() => setToast({ ...toast, visible: false })}
+                        onClose={() => setToast({ visible: false })}
                     />
                 )}
+            </div>
         </div>
-        
     );
 };
 
-export default UserLoginPage;
+export default VenueOwnerLoginPage;

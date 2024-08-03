@@ -1,74 +1,107 @@
-// src/pages/ChangePassword.jsx
 import React, { useState } from 'react';
+import axios from 'axios';
+import Toast from '../component/Toast'; // Adjust the import path for your Toast component
+import api from '../api/axios';
 
-const ChangePassword = () => {
+const ChangePasswordPage = () => {
     const [formData, setFormData] = useState({
-        oldPassword: '',
+        currentPassword: '',
         newPassword: '',
-        confirmNewPassword: '',
+        confirmNewPassword: ''
     });
+    const [toast, setToast] = useState({ message: '', status: '', visible: false });
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle password change logic here
-        console.log(formData);
+        const { currentPassword, newPassword, confirmNewPassword } = formData;
+
+        if (newPassword !== confirmNewPassword) {
+            setToast({ message: 'New passwords do not match', status: 'fail', visible: true });
+            return;
+        }
+
+        try {
+            const token = localStorage.getItem('userLoginToken'); // Get the token from local storage
+            const response = await api.post('/user/changepassword', { currentPassword, newPassword }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (response.data.success) {
+                setToast({ message: 'Password changed successfully', status: 'success', visible: true });
+                setFormData({
+                    currentPassword: '',
+                    newPassword: '',
+                    confirmNewPassword: ''
+                });
+            } else {
+                setToast({ message: response.data.message, status: 'fail', visible: true });
+            }
+        } catch (error) {
+            console.error('Error changing password:', error);
+            setToast({ message: 'Error changing password. Please try again.', status: 'fail', visible: true });
+        }
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-100">
-            <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg">
-                <h2 className="text-2xl font-bold mb-4 text-center text-gray-800">Change Password</h2>
+        <div className="min-h-screen flex items-center justify-center bg-gray-100">
+            <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+                <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">Change Password</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
-                        <label className="block text-gray-700 font-semibold mb-2">Old Password</label>
+                        <label className="block text-gray-700 mb-2">Current Password</label>
                         <input
                             type="password"
-                            name="oldPassword"
-                            value={formData.oldPassword}
+                            name="currentPassword"
+                            value={formData.currentPassword}
                             onChange={handleChange}
-                            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"
-                            placeholder="Enter old password"
+                            className="w-full p-2 border rounded-lg focus:outline-none focus:border-indigo-500"
                             required
                         />
                     </div>
                     <div className="mb-4">
-                        <label className="block text-gray-700 font-semibold mb-2">New Password</label>
+                        <label className="block text-gray-700 mb-2">New Password</label>
                         <input
                             type="password"
                             name="newPassword"
                             value={formData.newPassword}
                             onChange={handleChange}
-                            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"
-                            placeholder="Enter new password"
+                            className="w-full p-2 border rounded-lg focus:outline-none focus:border-indigo-500"
                             required
                         />
                     </div>
-                    <div className="mb-6">
-                        <label className="block text-gray-700 font-semibold mb-2">Confirm New Password</label>
+                    <div className="mb-4">
+                        <label className="block text-gray-700 mb-2">Confirm New Password</label>
                         <input
                             type="password"
                             name="confirmNewPassword"
                             value={formData.confirmNewPassword}
                             onChange={handleChange}
-                            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"
-                            placeholder="Confirm new password"
+                            className="w-full p-2 border rounded-lg focus:outline-none focus:border-indigo-500"
                             required
                         />
                     </div>
                     <button
                         type="submit"
-                        className="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition duration-200 font-semibold"
+                        className="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition duration-200"
                     >
                         Change Password
                     </button>
                 </form>
+                {toast.visible && (
+                    <Toast
+                        message={toast.message}
+                        status={toast.status}
+                        onClose={() => setToast({ ...toast, visible: false })}
+                    />
+                )}
             </div>
         </div>
     );
 };
 
-export default ChangePassword;
+export default ChangePasswordPage;

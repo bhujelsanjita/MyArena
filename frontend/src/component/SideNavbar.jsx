@@ -8,16 +8,17 @@ const SideNavbar = () => {
             <nav>
                 <ul>
                     <li className="mb-4">
-                        <Link to="/admin" className="hover:text-gray-400">Dashboard</Link>
+                        <Link to="/dashboard" className="hover:text-gray-400">Dashboard</Link>
                     </li>
                     <li className="mb-4">
-                        <Link to="/admin/venues" className="hover:text-gray-400">Manage Venues</Link>
+                        <Link to="/dashboard/venues" className="hover:text-gray-400">Manage Venues</Link>
                     </li>
                     <li className="mb-4">
-                        <Link to="/admin/bookings" className="hover:text-gray-400">Manage Bookings</Link>
+                        <Link to="/dashboard/bookings" className="hover:text-gray-400">Manage Bookings</Link>
                     </li>
-                    <li>
-                        <Link to="/admin/players" className="hover:text-gray-400">Manage Players</Link>
+                   
+                    <li className="mb-4">
+                        <Link to="/dashboard/logout" className="hover:text-gray-400">LogOut</Link>
                     </li>
                 </ul>
             </nav>

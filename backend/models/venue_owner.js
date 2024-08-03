@@ -1,9 +1,9 @@
 const Sequelize = require("sequelize");
 const Database = require("../config/dbconfig");
 
-const Venue_owner = database.define("venueownwe",{
+const Venue_owner = Database.define("venueowner",{
     id:{
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false,
         primaryKey: true
 
@@ -21,6 +21,10 @@ const Venue_owner = database.define("venueownwe",{
         allowNull: false   
     },
     email:{
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    contactNo:{
         type: Sequelize.STRING,
         allowNull: false
     }

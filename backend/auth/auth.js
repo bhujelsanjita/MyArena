@@ -3,9 +3,10 @@ const Sequelize = require("sequelize");
 const database = require("../config/dbconfig");
 const jwt = require("jsonwebtoken");
 const Users = require("../models/user");
-const Admin = require("../models/Admin");
+// const Admin = require("../models/Admin");
+const { Venue_Owner } = require("../models/relationship");
 const Auth = {
-  userAuth: (req, res) => {
+  userAuth: (req, res, next) => {
     if (
       req.headers.authorization == null ||
       req.headers.authorization == "" ||
@@ -28,7 +29,7 @@ const Auth = {
     }
     Users.findOne({
         where:{
-            id: req.body.id,
+            id: decodedToken.id
         },
     }).then((data)=>{
         if(
@@ -43,6 +44,7 @@ const Auth = {
         req.user = data;
         next();
     }).catch((err)=>{
+      console.log(err)
         return res.status(400).send({
             message: "something went wrong",
             success: false
@@ -51,7 +53,7 @@ const Auth = {
 
   },
 
-  adminAuth: (req, res) => {
+  veneueOwnerAuth: (req, res,next) => {
     if (
       req.headers.authorization == null ||
       req.headers.authorization == "" ||
@@ -72,9 +74,10 @@ const Auth = {
         success: false,
       });
     }
-    Admin.findOne({
+    Venue_Owner.findOne({
+        raw: true,
         where:{
-            id: req.body.id,
+            id: decodedToken.id,
         },
     }).then((data)=>{
         if(
@@ -86,9 +89,10 @@ const Auth = {
                 success: false,
             });
         }
-        req.user = data;
+        req.owner = data;
         next();
     }).catch((err)=>{
+      console.log(err);
         return res.status(400).send({
             message: "something went wrong",
             success: false
@@ -97,18 +101,8 @@ const Auth = {
 
   },
 
-  veneueOwnerAuth: (req, res) => {
-    if (
-      req.headers.authorization == null ||
-      req.headers.authorization == "" ||
-      req.headers.authorization == undefined
-    ) {
-      return res.status(401).send({
-        message: "Unauthorised",
-        success: false,
-      });
-    }
-  },
+
+   
 };
 
 module.exports = Auth;

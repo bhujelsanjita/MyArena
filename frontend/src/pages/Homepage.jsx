@@ -2,6 +2,7 @@ import React from 'react';
 import './Pages.css';
 import Navbar from '../component/Navbar';
 import Usetitle from '../component/Usetitle';
+import { Link } from 'react-router-dom';
 
 const HomePage = () => {
     Usetitle("Homepage - MyArena");
@@ -12,7 +13,10 @@ const HomePage = () => {
                 <div className="hero-content">
                     <h1>Book Your Futsal and Cricket Grounds</h1>
                     <p>Easy and fast booking for your favorite sports venues</p>
-                    <button className="cta-button">Get Started</button>
+                    
+                    <Link to="/explore" >
+                    <button className="cta-button">Book Now</button>
+                    </Link>
                 </div>
             </div>
         </div>

@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom';
 import TopNavbar from '../component/TopNavbar';
 import SideNavbar from '../component/SideNavbar';
 
-const AdminDashboard = () => {
+const DashboardIndex = () => {
     return (
         <div className="min-h-screen bg-gray-100 flex">
             <SideNavbar />
@@ -18,4 +18,4 @@ const AdminDashboard = () => {
     );
 };
 
-export default AdminDashboard;
+export default DashboardIndex;

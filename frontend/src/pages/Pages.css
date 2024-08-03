@@ -1,10 +1,19 @@
+body {
+    background-image: url('https://static.vecteezy.com/system/resources/previews/036/326/510/large_2x/ai-generated-soccer-football-player-on-a-championship-team-running-after-the-ball-during-finals-match-photo.jpg'); /* Replace with your background image URL */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Keeps the background fixed while scrolling */
+}
+
+
 .homepage-container {
     width: 100%;
     height: 100vh;
 }
 
 .hero-container {
-    background-image: url('https://example.com/your-background-image.jpg'); /* Replace with your image URL */
+ 
     background-size: cover;
     background-position: center;
     height: 100%;
@@ -13,10 +22,11 @@
     align-items: center;
     color: white;
     text-align: center;
+    
 }
 
 .hero-content {
-    background-color: rgba(9, 92, 35, 0.5);
+    /* background-color: rgba(208, 210, 208, 0.5); */
     padding: 20px;
     border-radius: 10px;
 }
@@ -36,12 +46,12 @@
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    background-color: #50ff70;
+    background-color: #ce1f16;
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 .cta-button:hover {
-    background-color: #ff6347;
+    background-color: #73e36b;
 }

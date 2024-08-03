@@ -1,20 +1,38 @@
 // src/components/VenueList.jsx
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import api from '../api/axios';
 
 const VenueList = () => {
-    // Sample venue data
-    const venues = [
-        { id: 1, name: 'Downtown Stadium', location: 'Downtown', price: '$50/hour' },
-        { id: 2, name: 'City Arena', location: 'Uptown', price: '$75/hour' },
-        // More venues...
-    ];
+    const [venues, setVenues] = useState([]);
+
+    useEffect(() => {
+        fetchVenues();
+    }, []);
+
+    const fetchVenues = async () => {
+        try {
+            const response = await api.get('/venues');
+            setVenues(response.data);
+        } catch (error) {
+            console.error('Error fetching venues:', error);
+        }
+    };
+
+    const handleDelete = async (id) => {
+        try {
+            await api.delete(`/venues/${id}`);
+            setVenues(venues.filter(venue => venue.id !== id));
+        } catch (error) {
+            console.error('Error deleting venue:', error);
+        }
+    };
 
     return (
         <div className="p-4">
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-semibold">Manage Venues</h2>
-                <Link to="/admin/venues/add" className="bg-blue-600 text-white px-4 py-2 rounded-lg">
+                <Link to="/dashboard/venues/add" className="bg-blue-600 text-white px-4 py-2 rounded-lg">
                     Add New Venue
                 </Link>
             </div>
@@ -23,11 +41,20 @@ const VenueList = () => {
                     {venues.map(venue => (
                         <li key={venue.id} className="border-b last:border-b-0 py-2">
                             <div><strong>Name:</strong> {venue.name}</div>
-                            <div><strong>Location:</strong> {venue.location}</div>
-                            <div><strong>Price:</strong> {venue.price}</div>
+                            <div><strong>Address:</strong> {venue.address}</div>
+                            <div><strong>Type:</strong> {venue.type}</div>
+                            <div><strong>Status:</strong> {venue.status}</div>
+                            <div><strong>Owner ID:</strong> {venue.ownerId}</div>
+                            <div><strong>Image:</strong>
+                                <img src={venue.image} alt={venue.name} className="w-32 h-32 object-cover mt-2" />
+                            </div>
                             <div className="flex justify-end mt-2">
-                                <button className="bg-green-600 text-white px-4 py-2 mr-2 rounded-lg">Edit</button>
-                                <button className="bg-red-600 text-white px-4 py-2 rounded-lg">Delete</button>
+                                <Link to={`/dashboard/venues/edit/${venue.id}`} className="bg-green-600 text-white px-4 py-2 mr-2 rounded-lg">
+                                    Edit
+                                </Link>
+                                <button onClick={() => handleDelete(venue.id)} className="bg-red-600 text-white px-4 py-2 rounded-lg">
+                                    Delete
+                                </button>
                             </div>
                         </li>
                     ))}
